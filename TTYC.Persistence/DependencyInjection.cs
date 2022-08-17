@@ -7,10 +7,11 @@ namespace TTYC.Persistence
 {
 	public static class DependencyInjection
 	{
-		public static IServiceCollection InitializePersistince(this IServiceCollection services, IConfiguration configuration)
+		public static IServiceCollection InitializePersistence(this IServiceCollection services, IConfiguration configuration)
 		{
-			var connectionString = configuration.GetConnectionString(ConfigurationConstants.defaultConnection);
-			services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+			var connectionString = configuration.GetConnectionString(ConfigurationConstants.DefaultConnection);
+			services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlServer(connectionString, config => config.MigrationsAssembly("TTYC.Migrations")));
 			return services;
 		}
 	}
