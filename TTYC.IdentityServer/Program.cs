@@ -1,40 +1,27 @@
-using Microsoft.OpenApi.Models;
-using System.Reflection;
 using TTYC.Application;
+using TTYC.IdentityServer;
 using TTYC.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-	options.SwaggerDoc("v1", new OpenApiInfo
-	{
-		Version = "v1",
-		Title = "TTYC"
-	});
+builder.Services.AddIdentityServer()
+	.AddDeveloperSigningCredential()
+	.AddInMemoryApiScopes(Config.ApiScopes)
+	.AddInMemoryClients(Config.Clients)
+	.AddInMemoryIdentityResources(Config.IdentityResources)
+	.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
 
-	var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-	var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-	options.IncludeXmlComments(xmlPath);
-});
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
-builder.Services.InitializePersistince(builder.Configuration);
+//builder.Services.Configure<ClientOptions>(builder.Configuration.GetSection(ConfigurationConstants.ClientOptions));
+
+builder.Services.InitializePersistence(builder.Configuration);
 builder.Services.InitializeApplication();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-	app.UseSwagger();
-	app.UseSwaggerUI();
-}
+app.UseCors("CorsPolicy");
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+app.UseIdentityServer();
 
 app.Run();

@@ -1,0 +1,31 @@
+﻿using MediatR;
+using TTYC.Domain;
+using TTYC.Persistence;
+
+namespace TTYC.Application.Users.Commands.AddUser
+{
+	public class AddUserHandler : IRequestHandler<AddUserCommand>
+	{
+		private readonly ApplicationDbContext dbContext;
+
+		public AddUserHandler(ApplicationDbContext dbContext)
+		{
+			this.dbContext = dbContext;
+		}
+
+		public async Task<Unit> Handle(AddUserCommand command, CancellationToken cancellationToken)
+		{
+			var user = new User
+			{
+				UserId = Guid.NewGuid(),
+				PhoneNumber = command.PhoneNumber,
+				Password = PasswordHelper.HashPassword(command.Password)
+			};
+
+			await dbContext.Users.AddAsync(user, cancellationToken);
+			await dbContext.SaveChangesAsync(cancellationToken);
+
+			return Unit.Value;
+		}
+	}
+}

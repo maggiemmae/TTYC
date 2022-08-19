@@ -2,6 +2,10 @@
 {
 	public class User
 	{
-		public string Name { get; set; }
+		public Guid UserId { get; set; }
+		public string PhoneNumber { get; set; }
+		public string Password { get; set; }
+
+		public UserProfile Profile { get; set; }
 	}
 }
