@@ -11,7 +11,8 @@ builder.Services.AddIdentityServer()
 	.AddInMemoryApiScopes(Config.ApiScopes)
 	.AddInMemoryClients(Config.Clients)
 	.AddInMemoryIdentityResources(Config.IdentityResources)
-	.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
+	.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+	.AddProfileService<CustomProfileService>();
 
 builder.Services.AddCors(options =>	
 	options.AddPolicy("CorsPolicy", x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));

@@ -18,7 +18,8 @@ namespace TTYC.IdentityServer
 			{
 				new IdentityResources.OpenId(),
 				new IdentityResources.Profile(),
-			};
+                new IdentityResource("roles", "User role", new List<string> { "role" })
+            };
 
 		public static IEnumerable<Client> Clients =>
 			new List<Client>
@@ -28,7 +29,7 @@ namespace TTYC.IdentityServer
 					ClientId = ClientOptions.ClientId,
 					AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
 					ClientSecrets = {new Secret("secret".Sha256())},
-					AllowedScopes = {"ClientAPI", "offline_access"},
+					AllowedScopes = {"ClientAPI", "offline_access", "roles"},
 					AllowOfflineAccess = true,
 					AccessTokenLifetime = ClientOptions.AccessTokenLifetime
 				}
