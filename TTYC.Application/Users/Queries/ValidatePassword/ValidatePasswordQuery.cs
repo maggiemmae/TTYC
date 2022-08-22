@@ -1,10 +1,10 @@
 ﻿using MediatR;
+using TTYC.Domain;
 
 namespace TTYC.Application.Users.Queries.ValidatePassword
 {
-	public class ValidatePasswordQuery : IRequest<bool>
+	public class ValidatePasswordQuery : IRequest<User>
 	{
 		public string UserName { get; set; }
-		public string Password { get; set; }
 	}
 }

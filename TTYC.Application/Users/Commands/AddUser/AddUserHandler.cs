@@ -4,7 +4,7 @@ using TTYC.Persistence;
 
 namespace TTYC.Application.Users.Commands.AddUser
 {
-	public class AddUserHandler : IRequestHandler<AddUserCommand>
+	public class AddUserHandler : IRequestHandler<AddUserCommand, Guid>
 	{
 		private readonly ApplicationDbContext dbContext;
 
@@ -13,11 +13,11 @@ namespace TTYC.Application.Users.Commands.AddUser
 			this.dbContext = dbContext;
 		}
 
-		public async Task<Unit> Handle(AddUserCommand command, CancellationToken cancellationToken)
+		public async Task<Guid> Handle(AddUserCommand command, CancellationToken cancellationToken)
 		{
 			var user = new User
 			{
-				UserId = Guid.NewGuid(),
+				Id = Guid.NewGuid(),
 				PhoneNumber = command.PhoneNumber,
 				Password = PasswordHelper.HashPassword(command.Password)
 			};
@@ -25,7 +25,7 @@ namespace TTYC.Application.Users.Commands.AddUser
 			await dbContext.Users.AddAsync(user, cancellationToken);
 			await dbContext.SaveChangesAsync(cancellationToken);
 
-			return Unit.Value;
+			return user.Id;
 		}
 	}
 }

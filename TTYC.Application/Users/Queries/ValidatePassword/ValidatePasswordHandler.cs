@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using TTYC.Domain;
 using TTYC.Persistence;
 
 namespace TTYC.Application.Users.Queries.ValidatePassword
 {
-	public class ValidatePasswordHandler : IRequestHandler<ValidatePasswordQuery, bool>
+	public class ValidatePasswordHandler : IRequestHandler<ValidatePasswordQuery, User>
 	{
 		private readonly ApplicationDbContext dbContext;
 
@@ -12,13 +13,11 @@ namespace TTYC.Application.Users.Queries.ValidatePassword
 			this.dbContext = dbContext;
 		}
 
-		public Task<bool> Handle(ValidatePasswordQuery query, CancellationToken cancellationToken)
+		public async Task<User> Handle(ValidatePasswordQuery query, CancellationToken cancellationToken)
 		{
 			var user = dbContext.Users.FirstOrDefault(x => x.PhoneNumber == query.UserName);
 
-			var isMatch = PasswordHelper.VerifyHashedPassword(user.Password, query.Password);
-
-			return Task.FromResult(isMatch);
+			return user;
 		}
 	}
 }

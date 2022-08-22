@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TTYC.ClientAPI", "TTYC.Clie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TTYC.Migrations", "TTYC.Migrations\TTYC.Migrations.csproj", "{4A5196D9-8469-4A48-AA5A-4B1DC1456A95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTYC.IdentityServer", "TTYC.IdentityServer\TTYC.IdentityServer.csproj", "{82BB2277-2154-4FCE-860E-C6E6E9F2AE5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TTYC.IdentityServer", "TTYC.IdentityServer\TTYC.IdentityServer.csproj", "{82BB2277-2154-4FCE-860E-C6E6E9F2AE5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

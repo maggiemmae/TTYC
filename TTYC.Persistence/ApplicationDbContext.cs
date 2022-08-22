@@ -15,12 +15,12 @@ namespace TTYC.Persistence
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			builder.Entity<UserProfile>()
-				.HasKey(x => x.UserId);
+				.HasKey(x => x.Id);
 
 			builder.Entity<User>()
 				.HasOne(x => x.Profile)
 				.WithOne(x => x.User)
-				.HasForeignKey<UserProfile>(b => b.UserId)
+				.HasForeignKey<UserProfile>(b => b.Id)
 				.OnDelete(DeleteBehavior.Cascade);
 
 			builder.Entity<Address>()

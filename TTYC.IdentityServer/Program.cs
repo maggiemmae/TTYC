@@ -4,6 +4,8 @@ using TTYC.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.GetSection("ClientOptions").Bind(Config.ClientOptions);
+
 builder.Services.AddIdentityServer()
 	.AddDeveloperSigningCredential()
 	.AddInMemoryApiScopes(Config.ApiScopes)
@@ -11,9 +13,8 @@ builder.Services.AddIdentityServer()
 	.AddInMemoryIdentityResources(Config.IdentityResources)
 	.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
 
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
-
-//builder.Services.Configure<ClientOptions>(builder.Configuration.GetSection(ConfigurationConstants.ClientOptions));
+builder.Services.AddCors(options =>	
+	options.AddPolicy("CorsPolicy", x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 builder.Services.InitializePersistence(builder.Configuration);
 builder.Services.InitializeApplication();

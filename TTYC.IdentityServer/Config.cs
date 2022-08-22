@@ -1,9 +1,12 @@
 ﻿using IdentityServer4.Models;
+using TTYC.Constants;
 
 namespace TTYC.IdentityServer
 {
 	public static class Config
 	{
+		public static ClientOptions ClientOptions { get; set; } = new ClientOptions();
+
 		public static IEnumerable<ApiScope> ApiScopes =>
 			new List<ApiScope>
 			{
@@ -14,7 +17,7 @@ namespace TTYC.IdentityServer
 			new List<IdentityResource>
 			{
 				new IdentityResources.OpenId(),
-				new IdentityResources.Profile()
+				new IdentityResources.Profile(),
 			};
 
 		public static IEnumerable<Client> Clients =>
@@ -22,12 +25,12 @@ namespace TTYC.IdentityServer
 			{
 				new Client
 				{
-					ClientId = "clientAPI",
+					ClientId = ClientOptions.ClientId,
 					AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
 					ClientSecrets = {new Secret("secret".Sha256())},
 					AllowedScopes = {"ClientAPI", "offline_access"},
 					AllowOfflineAccess = true,
-					AccessTokenLifetime = 300
+					AccessTokenLifetime = ClientOptions.AccessTokenLifetime
 				}
 			};
 	}
