@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TTYC.Application.Interfaces;
-using TTYC.Application.Services;
 using TTYC.Domain;
 using TTYC.Persistence;
 

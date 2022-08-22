@@ -35,7 +35,7 @@ namespace TTYC.Application
 
         private static string HashPasswordInternal(string password)
         {
-            var bytes = HashPasswordInternal(password, KeyDerivationPrf.HMACSHA256, ConfigurationConstants.IterCount, ConfigurationConstants.SaltSize, ConfigurationConstants.SubkeyLength);
+            var bytes = HashPasswordInternal(password, KeyDerivationPrf.HMACSHA256, ConfigurationConstants.PasswordHashParams.IterCount, ConfigurationConstants.PasswordHashParams.SaltSize, ConfigurationConstants.PasswordHashParams.SubkeyLength);
             return Convert.ToBase64String(bytes);
         }
 

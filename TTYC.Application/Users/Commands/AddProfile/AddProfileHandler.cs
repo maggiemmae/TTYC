@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using TTYC.Application.Interfaces;
 using TTYC.Domain;
 using TTYC.Persistence;
@@ -10,28 +9,36 @@ namespace TTYC.Application.Users.Commands.AddProfile
 	{
 		private readonly ApplicationDbContext dbContext;
 		private readonly ICurrentUserService currentUserService;
-		private readonly IMapper mapper;
 
-		public AddProfileHandler(ApplicationDbContext dbContext, ICurrentUserService currentUserService, IMapper mapper)
+		public AddProfileHandler(ApplicationDbContext dbContext, ICurrentUserService currentUserService)
 		{
 			this.dbContext = dbContext;
 			this.currentUserService = currentUserService;
-			this.mapper = mapper;
 		}
 
 		public async Task<Guid> Handle(AddProfileCommand command, CancellationToken cancellationToken)
 		{
 			var user = dbContext.Users.FirstOrDefault(x => x.Id == currentUserService.UserId);
-			var profile = new UserProfile
+
+			var address = new List<Address>
+				{
+					new Address
+					{
+						Id = Guid.NewGuid(),
+						Street = command.Address.Street,
+						HouseNumber = command.Address.HouseNumber,
+						FlatNumber = command.Address.HouseNumber,
+						Floor = command.Address.Floor
+					}
+				};
+
+            var profile = new UserProfile
 			{
 				Id = user.Id,
 				Name = command.Name,
 				Surname = command.Surname,
 				Email = command.Email,
-				Addresses = new List<Address>
-				{
-					mapper.Map<Address>(command.Address)
-				}
+				Addresses = address
 			};
 
 			await dbContext.Profiles.AddAsync(profile, cancellationToken);

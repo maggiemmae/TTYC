@@ -6,5 +6,6 @@ namespace TTYC.Application.Users.Commands.AddUser
 	{
 		public string PhoneNumber { get; set; }
 		public string Password { get; set; }
+		public string Role { get; set; }
 	}
 }

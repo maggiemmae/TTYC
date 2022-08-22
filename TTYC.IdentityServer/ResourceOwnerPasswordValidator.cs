@@ -1,6 +1,7 @@
 ﻿using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using MediatR;
+using System.Security.Claims;
 using TTYC.Application;
 using TTYC.Application.Users.Queries.ValidatePassword;
 
@@ -23,10 +24,14 @@ namespace TTYC.IdentityServer
 			};
 
 			var user = await mediatr.Send(query);
-            var isMatch = PasswordHelper.VerifyHashedPassword(user.Password, context.Password);
+			var isMatch = PasswordHelper.VerifyHashedPassword(user.Password, context.Password);
 
-            if (isMatch) {
-				context.Result = new GrantValidationResult(user.Id.ToString(), GrantType.ResourceOwnerPassword);
+			var claims = new List<Claim> {
+				new Claim("role", user.Role)
+			};
+
+			if (isMatch) {
+				context.Result = new GrantValidationResult(user.Id.ToString(), GrantType.ResourceOwnerPassword, claims);
 			}
 
 			return;

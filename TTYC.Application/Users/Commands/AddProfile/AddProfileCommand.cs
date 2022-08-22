@@ -9,6 +9,6 @@ namespace TTYC.Application.Users.Commands.AddProfile
 		public string Surname { get; set; }
 		public string Email { get; set; }
 
-		public AddressDTO Address { get; set; }
+		public Address Address { get; set; }
 	}
 }

@@ -9,7 +9,7 @@ namespace TTYC.Persistence
 	{
 		public static IServiceCollection InitializePersistence(this IServiceCollection services, IConfiguration configuration)
 		{
-			var connectionString = configuration.GetConnectionString(ConfigurationConstants.SecurityOptions.DefaultConnection);
+			var connectionString = configuration.GetConnectionString(ConfigurationConstants.DefaultConnection);
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(connectionString, config => config.MigrationsAssembly("TTYC.Migrations")));
 			return services;

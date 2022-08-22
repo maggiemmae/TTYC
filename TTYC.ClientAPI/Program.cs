@@ -19,7 +19,9 @@ builder.Services.AddSwaggerGen(options =>
 		Title = "TTYC"
 	});
 
-	options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    options.CustomSchemaIds(type => type.ToString());
+
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
 	{
 		Name = "Authorization",
 		Type = SecuritySchemeType.OAuth2,
@@ -71,7 +73,14 @@ builder.Services.AddAuthentication(options =>
 		options.Authority = "https://localhost:7294";
 		options.RequireHttpsMetadata = false;
 		options.LegacyAudienceValidation = true;
-	});
+        options.RoleClaimType = "role";
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+	options.AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"));
+    options.AddPolicy("User", policy => policy.RequireClaim("role", "user"));
+});
 
 builder.Services.InitializePersistence(builder.Configuration);
 builder.Services.InitializeApplication();

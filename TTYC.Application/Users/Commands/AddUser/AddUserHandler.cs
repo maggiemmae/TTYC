@@ -19,7 +19,8 @@ namespace TTYC.Application.Users.Commands.AddUser
 			{
 				Id = Guid.NewGuid(),
 				PhoneNumber = command.PhoneNumber,
-				Password = PasswordHelper.HashPassword(command.Password)
+				Password = PasswordHelper.HashPassword(command.Password),
+				Role = command.Role
 			};
 
 			await dbContext.Users.AddAsync(user, cancellationToken);

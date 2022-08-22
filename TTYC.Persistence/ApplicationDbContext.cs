@@ -8,6 +8,7 @@ namespace TTYC.Persistence
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserProfile> Profiles { get; set; }
 		public DbSet<Address> Addresses { get; set; }
+		public DbSet<Product> Products { get; set; }
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options) { }
@@ -28,6 +29,8 @@ namespace TTYC.Persistence
 				.WithMany(x => x.Addresses)
 				.HasForeignKey(x => x.UserId)
 				.OnDelete(DeleteBehavior.NoAction);
+
+			builder.Entity<Product>();
 
 			base.OnModelCreating(builder);
 		}

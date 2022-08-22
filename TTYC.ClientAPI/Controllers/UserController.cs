@@ -5,7 +5,7 @@ using TTYC.Application.Users.Commands.AddProfile;
 using TTYC.Application.Users.Queries.GetUserProfile;
 using TTYC.Domain;
 
-namespace TTYC.IdentityServer.Controllers
+namespace TTYC.ClientAPI.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
@@ -19,7 +19,7 @@ namespace TTYC.IdentityServer.Controllers
 		}
 
 		/// <summary>
-		/// Adding user profile with address.
+		/// Adds user profile with address.
 		/// </summary>
 		[Authorize]
 		[HttpPost]
@@ -37,7 +37,6 @@ namespace TTYC.IdentityServer.Controllers
 		public async Task<UserProfile> GetUserProfile()
 		{
 			var query = new GetUserProfileQuery();
-
 			return await mediatr.Send(query);
 		}
 	}
