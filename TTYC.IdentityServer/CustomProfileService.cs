@@ -8,7 +8,6 @@ namespace TTYC.IdentityServer
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             context.IssuedClaims = context.Subject.Claims.ToList();
-
             return Task.CompletedTask;
         }
 

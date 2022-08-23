@@ -6,6 +6,7 @@ using TTYC.Application.Products.DeleteProduct;
 using TTYC.Application.Products.EditProduct;
 using TTYC.Application.Products.GetProduct;
 using TTYC.Application.Products.GetProductsList;
+using TTYC.Constants;
 
 namespace TTYC.ClientAPI.Controllers
 {
@@ -21,9 +22,9 @@ namespace TTYC.ClientAPI.Controllers
         }
 
         /// <summary>
-		/// Adds product.
-		/// </summary>
-        [Authorize(Policy = "Admin")]
+        /// Adds product.
+        /// </summary>
+        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] AddProductCommand command)
         {
@@ -32,20 +33,20 @@ namespace TTYC.ClientAPI.Controllers
         }
 
         /// <summary>
-		/// Gets paged list of products.
-		/// </summary>
+        /// Gets paged list of products.
+        /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetProductsList([FromQuery] GetProductsListQuery query)
+        public async Task<IActionResult> GetProductsList([FromQuery] GeStoresListQuery query)
         {
             var products = await mediatr.Send(query);
             return Ok(products);
         }
 
         /// <summary>
-		/// Gets product by id.
-		/// </summary>
+        /// Gets product by id.
+        /// </summary>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProduct(Guid id)
+        public async Task<IActionResult> GetProduct([FromRoute] Guid id)
         {
             var query = new GetProductQuery()
             {
@@ -56,9 +57,9 @@ namespace TTYC.ClientAPI.Controllers
         }
 
         /// <summary>
-		/// Edits product by id.
-		/// </summary>
-        [Authorize(Policy = "Admin")]
+        /// Edits product by id.
+        /// </summary>
+        [Authorize(Roles = Roles.Admin)]
         [HttpPut]
         public async Task<IActionResult> EditProduct([FromBody] EditProductCommand command)
         {
@@ -67,9 +68,9 @@ namespace TTYC.ClientAPI.Controllers
         }
 
         /// <summary>
-		/// Deletes product by id.
-		/// </summary>
-        [Authorize(Policy = "Admin")]
+        /// Deletes product by id.
+        /// </summary>
+        [Authorize(Roles = Roles.Admin)]
         [HttpDelete]
         public async Task<IActionResult> DeleteProduct([FromQuery] DeleteProductCommand command)
         {
