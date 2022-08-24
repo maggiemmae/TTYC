@@ -21,8 +21,4 @@
     <ProjectReference Include="..\TTYC.Persistence\TTYC.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Profiles\" />
-  </ItemGroup>
-
 </Project>

@@ -1,43 +1,55 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TTYC.Application.Users.Commands.AddProfile;
-using TTYC.Application.Users.Queries.GetUserProfile;
-using TTYC.Domain;
+using TTYC.Application.Users.AddUser;
+using TTYC.Application.Users.BlockUser;
+using TTYC.Application.Users.GetUsers;
+using TTYC.Constants;
 
 namespace TTYC.ClientAPI.Controllers
 {
-	[ApiController]
-	[Route("[controller]")]
-	public class UserController : ControllerBase
-	{
-		private readonly ISender mediatr;
+    [ApiController]
+    [Route("[controller]")]
+    public class UserController : ControllerBase
+    {
+        private readonly ISender mediatr;
 
-		public UserController(ISender mediatr)
-		{
-			this.mediatr = mediatr;
-		}
+        public UserController(ISender mediatr)
+        {
+            this.mediatr = mediatr;
+        }
 
-		/// <summary>
-		/// Adds user profile with address.
-		/// </summary>
-		[Authorize]
-		[HttpPost]
-		public async Task<IActionResult> AddUserProfile([FromBody] AddProfileCommand command)
-		{
-			await mediatr.Send(command);
-			return Ok();
-		}
+        /// <summary>
+        /// Registration.
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> SignUp([FromBody] AddUserCommand command)
+        {
+            var response = await mediatr.Send(command);
+            return Ok(response);
+        }
 
-		/// <summary>
-		/// Gets user profile of authorized user.
-		/// </summary>
-		[Authorize]
-		[HttpGet]
-		public async Task<UserProfile> GetUserProfile()
-		{
-			var query = new GetUserProfileQuery();
-			return await mediatr.Send(query);
-		}
-	}
+        /// <summary>
+        /// Blocks user by id for input hours.
+        /// </summary>
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPut]
+        public async Task<IActionResult> BlockUser([FromBody] BlockUserCommand command)
+        {
+            var lockoutEnd = await mediatr.Send(command);
+            return Ok(lockoutEnd);
+        }
+
+        /// <summary>
+        /// Gets list of users.
+        /// </summary>
+        [Authorize(Roles = Roles.Admin)]
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+            var query = new GetUsersQuery();
+            var users = await mediatr.Send(query);
+            return Ok(users);
+        }
+    }
 }
