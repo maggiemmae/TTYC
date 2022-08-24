@@ -2,9 +2,13 @@ using IdentityServer4.AccessTokenValidation;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using TTYC.Application;
+using TTYC.Constants;
 using TTYC.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var authenticationOptions = new AuthOptions();
+builder.Configuration.GetSection(ConfigurationConstants.AuthenticationOptions).Bind(authenticationOptions);
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -29,7 +33,7 @@ builder.Services.AddSwaggerGen(options =>
         {
             Password = new OpenApiOAuthFlow
             {
-                TokenUrl = new Uri("https://localhost:7294/connect/token"),
+                TokenUrl = new Uri(authenticationOptions.TokenUrl),
                 Scopes = new Dictionary<string, string>
                 {
                     {"ClientAPI", "ClientAPI" }
@@ -69,8 +73,8 @@ builder.Services.AddAuthentication(options =>
 })
     .AddIdentityServerAuthentication(options =>
     {
-        options.ApiName = "ClientAPI";
-        options.Authority = "https://localhost:7294";
+        options.ApiName = authenticationOptions.ApiName;
+        options.Authority = authenticationOptions.Authority;
         options.RequireHttpsMetadata = false;
         options.LegacyAudienceValidation = true;
         options.RoleClaimType = "role";

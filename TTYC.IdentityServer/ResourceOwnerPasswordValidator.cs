@@ -3,7 +3,7 @@ using IdentityServer4.Validation;
 using MediatR;
 using System.Security.Claims;
 using TTYC.Application;
-using TTYC.Application.Users.Queries.ValidatePassword;
+using TTYC.Application.Users.GetUser;
 
 namespace TTYC.IdentityServer
 {
@@ -18,7 +18,7 @@ namespace TTYC.IdentityServer
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var query = new ValidatePasswordQuery()
+            var query = new GetUserQuery()
             {
                 UserName = context.UserName
             };

@@ -17,10 +17,10 @@ namespace TTYC.Application.Stores.AddProductToStore
         {
             var store = await dbContext.Stores
                 .Include(p => p.Products)
-                .SingleAsync(p => p.Id == command.StoreId, cancellationToken);
+                .FirstOrDefaultAsync(p => p.Id == command.StoreId, cancellationToken);
 
-            var product = dbContext.Products
-                .Single(p => p.Id == command.ProductId);
+            var product = await dbContext.Products
+                .FirstOrDefaultAsync(p => p.Id == command.ProductId, cancellationToken);
 
             store.Products.Add(product);
             await dbContext.SaveChangesAsync(cancellationToken);

@@ -20,7 +20,7 @@ namespace TTYC.Application.Stores.AddStore
         {
             var store = mapper.Map<Store>(command);
 
-            await dbContext.Stores.AddAsync(store, cancellationToken);
+            dbContext.Stores.Add(store);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return store.Id;

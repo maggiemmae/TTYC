@@ -1,10 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TTYC.Application.Models;
-using TTYC.Application.Users.Commands.AddUser;
-using TTYC.Application.Users.Commands.BlockUser;
-using TTYC.Application.Users.Queries.GetUsers;
+using TTYC.Application.Users.AddUser;
+using TTYC.Application.Users.BlockUser;
+using TTYC.Application.Users.GetUsers;
 using TTYC.Constants;
 
 namespace TTYC.ClientAPI.Controllers
@@ -35,9 +34,10 @@ namespace TTYC.ClientAPI.Controllers
         /// </summary>
         [Authorize(Roles = Roles.Admin)]
         [HttpPut]
-        public async Task<DateTime> BlockUser([FromBody] BlockUserCommand command)
+        public async Task<IActionResult> BlockUser([FromBody] BlockUserCommand command)
         {
-            return await mediatr.Send(command);
+            var lockoutEnd = await mediatr.Send(command);
+            return Ok(lockoutEnd);
         }
 
         /// <summary>
@@ -45,10 +45,11 @@ namespace TTYC.ClientAPI.Controllers
         /// </summary>
         [Authorize(Roles = Roles.Admin)]
         [HttpGet]
-        public async Task<IEnumerable<UserInfrastructure>> GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
             var query = new GetUsersQuery();
-            return await mediatr.Send(query);
+            var users = await mediatr.Send(query);
+            return Ok(users);
         }
     }
 }

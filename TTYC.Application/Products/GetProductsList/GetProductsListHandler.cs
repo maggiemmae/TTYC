@@ -16,11 +16,6 @@ namespace TTYC.Application.Products.GetProductsList
 
         public async Task<PagedList<Product>> Handle(GeStoresListQuery query, CancellationToken cancellationToken)
         {
-            if(dbContext.Products == null)
-            {
-                throw new NullReferenceException("Products not found");
-            }
-
             var products = await PagedList<Product>.ToPagedListAsync(
                 dbContext.Products,
                 query.PageNumber,

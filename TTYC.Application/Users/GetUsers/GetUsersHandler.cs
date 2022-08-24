@@ -5,7 +5,7 @@ using TTYC.Application.Models;
 using TTYC.Domain;
 using TTYC.Persistence;
 
-namespace TTYC.Application.Users.Queries.GetUsers
+namespace TTYC.Application.Users.GetUsers
 {
     public class GetUsersHandler : IRequestHandler<GetUsersQuery, IEnumerable<UserInfrastructure>>
     {

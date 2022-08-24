@@ -1,10 +1,11 @@
 using TTYC.Application;
+using TTYC.Constants;
 using TTYC.IdentityServer;
 using TTYC.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.GetSection("ClientOptions").Bind(Config.ClientOptions);
+builder.Configuration.GetSection(ConfigurationConstants.ClientOptions).Bind(Config.ClientOptions);
 
 builder.Services.AddIdentityServer()
     .AddDeveloperSigningCredential()
@@ -15,14 +16,14 @@ builder.Services.AddIdentityServer()
     .AddProfileService<CustomProfileService>();
 
 builder.Services.AddCors(options =>	
-    options.AddPolicy("CorsPolicy", x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+    options.AddPolicy(ConfigurationConstants.CorsPolicy, x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 builder.Services.InitializePersistence(builder.Configuration);
 builder.Services.InitializeApplication();
 
 var app = builder.Build();
 
-app.UseCors("CorsPolicy");
+app.UseCors(ConfigurationConstants.CorsPolicy);
 
 app.UseIdentityServer();
 

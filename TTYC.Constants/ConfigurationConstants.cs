@@ -3,6 +3,9 @@
     public static class ConfigurationConstants
     {
         public const string DefaultConnection = "DefaultConnection";
+        public const string CorsPolicy = "CorsPolicy";
+        public const string ClientOptions = "ClientOptions";
+        public const string AuthenticationOptions = "AuthenticationOptions";
 
         public struct PasswordHashParams
         {

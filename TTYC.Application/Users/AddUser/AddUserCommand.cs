@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace TTYC.Application.Users.Commands.AddUser
+namespace TTYC.Application.Users.AddUser
 {
     public class AddUserCommand : IRequest<Guid>
     {

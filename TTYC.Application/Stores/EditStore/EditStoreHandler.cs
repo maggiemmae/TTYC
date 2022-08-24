@@ -16,7 +16,10 @@ namespace TTYC.Application.Stores.EditStore
         public async Task<Unit> Handle(EditStoreCommand command, CancellationToken cancellationToken)
         {
             var store = await dbContext.Stores.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
+
             store.Name = command.Name;
+            store.Longitude = command.Longitude;
+            store.Latitude = command.Latitude;
 
             dbContext.Update(store);
             await dbContext.SaveChangesAsync(cancellationToken);

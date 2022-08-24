@@ -28,8 +28,8 @@ namespace TTYC.ClientAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] AddProductCommand command)
         {
-            await mediatr.Send(command);
-            return Ok();
+            var productId = await mediatr.Send(command);
+            return Ok(productId);
         }
 
         /// <summary>

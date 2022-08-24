@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using TTYC.Application.Models;
 
-namespace TTYC.Application.Users.Commands.AddProfile
+namespace TTYC.Application.Users.AddProfile
 {
     public class AddProfileCommand : IRequest<Guid>
     {

@@ -1,30 +1,26 @@
-﻿using MediatR;
-using TTYC.Persistence;
+﻿using AutoMapper;
+using MediatR;
 using TTYC.Domain;
-using AutoMapper;
+using TTYC.Persistence;
 
 namespace TTYC.Application.Products.AddProduct
 {
     public class AddProductHandler : IRequestHandler<AddProductCommand, Guid>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public AddProductHandler(ApplicationDbContext dbContext)
+        public AddProductHandler(ApplicationDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public async Task<Guid> Handle(AddProductCommand command, CancellationToken cancellationToken)
         {
-            var product = new Product()
-            {
-                Id = Guid.NewGuid(),
-                Name = command.Name,
-                Description = command.Description,
-                Price = command.Price
-            };
+            var product = mapper.Map<Product>(command);
 
-            await dbContext.Products.AddAsync(product, cancellationToken);
+            dbContext.Products.Add(product);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return product.Id;

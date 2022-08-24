@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TTYC.Persistence;
 
-namespace TTYC.Application.Users.Commands.BlockUser
+namespace TTYC.Application.Users.BlockUser
 {
     public class BlockUserHandler : IRequestHandler<BlockUserCommand, DateTime>
     {
@@ -16,7 +16,7 @@ namespace TTYC.Application.Users.Commands.BlockUser
         public async Task<DateTime> Handle(BlockUserCommand command, CancellationToken cancellationToken)
         {
             var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
-            user.LockoutEnd = DateTime.UtcNow.AddHours(command.Hours);
+            user.LockoutEnd = DateTime.UtcNow.AddDays(command.Days).AddHours(command.Hours);
             
             dbContext.Update(user);
             await dbContext.SaveChangesAsync(cancellationToken);

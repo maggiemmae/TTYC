@@ -2,7 +2,7 @@
 using TTYC.Domain;
 using TTYC.Persistence;
 
-namespace TTYC.Application.Users.Commands.AddUser
+namespace TTYC.Application.Users.AddUser
 {
     public class AddUserHandler : IRequestHandler<AddUserCommand, Guid>
     {
@@ -23,7 +23,7 @@ namespace TTYC.Application.Users.Commands.AddUser
                 Role = command.Role
             };
 
-            await dbContext.Users.AddAsync(user, cancellationToken);
+            dbContext.Users.Add(user);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return user.Id;

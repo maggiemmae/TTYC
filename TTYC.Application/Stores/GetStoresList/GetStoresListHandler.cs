@@ -16,11 +16,6 @@ namespace TTYC.Application.Stores.GetStoresList
 
         public async Task<PagedList<Store>> Handle(GetStoresListQuery query, CancellationToken cancellationToken)
         {
-            if (dbContext.Stores == null)
-            {
-                throw new NullReferenceException("Stores not found");
-            }
-
             var stores = await PagedList<Store>.ToPagedListAsync(
                 dbContext.Stores,
                 query.PageNumber,

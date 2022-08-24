@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TTYC.Domain;
 using TTYC.Persistence;
 
 namespace TTYC.Application.Products.EditProduct
@@ -7,10 +9,12 @@ namespace TTYC.Application.Products.EditProduct
     public class EditProductHandler : IRequestHandler<EditProductCommand, Unit>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public EditProductHandler(ApplicationDbContext dbContext)
+        public EditProductHandler(ApplicationDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public async Task<Unit> Handle(EditProductCommand command, CancellationToken cancellationToken)

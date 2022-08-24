@@ -4,7 +4,7 @@ using TTYC.Application.Interfaces;
 using TTYC.Domain;
 using TTYC.Persistence;
 
-namespace TTYC.Application.Users.Queries.GetUserProfile
+namespace TTYC.Application.Users.GetUserProfile
 {
     public class GetUserProfileHandler : IRequestHandler<GetUserProfileQuery, UserProfile>
     {
