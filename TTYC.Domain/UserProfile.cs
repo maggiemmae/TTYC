@@ -9,6 +9,6 @@
         public Guid Id { get; set; }
         public virtual User User { get; set; }
 
-        public IList<Address> Addresses { get; set; }
+        public virtual IList<Address> Addresses { get; set; }
     }
 }

@@ -4,19 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 using TTYC.Application.Stores.AddStore;
 using TTYC.Application.Stores.DeleteStore;
 using TTYC.Application.Stores.EditStore;
-using TTYC.Application.Stores.GetStore;
-using TTYC.Application.Stores.GetStoresList;
 using TTYC.Constants;
 
-namespace TTYC.ClientAPI.Controllers
+namespace TTYC.ClientAPI.Admin
 {
+    [Authorize(Roles = Roles.Admin)]
     [Route("[controller]")]
     [ApiController]
-    public class StoreController : ControllerBase
+    public class StoreAdminController : ControllerBase
     {
         private readonly ISender mediatr;
 
-        public StoreController(ISender mediatr)
+        public StoreAdminController(ISender mediatr)
         {
             this.mediatr = mediatr;
         }
@@ -24,7 +23,6 @@ namespace TTYC.ClientAPI.Controllers
         /// <summary>
         /// Adds store.
         /// </summary>
-        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<IActionResult> AddStore([FromBody] AddStoreCommand command)
         {
@@ -35,7 +33,6 @@ namespace TTYC.ClientAPI.Controllers
         /// <summary>
         /// Deletes store by id.
         /// </summary>
-        [Authorize(Roles = Roles.Admin)]
         [HttpDelete]
         public async Task<IActionResult> DeleteStore([FromQuery] DeleteStoreCommand command)
         {
@@ -46,36 +43,11 @@ namespace TTYC.ClientAPI.Controllers
         /// <summary>
         /// Edits store by id.
         /// </summary>
-        [Authorize(Roles = Roles.Admin)]
         [HttpPut]
         public async Task<IActionResult> EditStore([FromBody] EditStoreCommand command)
         {
             await mediatr.Send(command);
             return Ok();
-        }
-
-        /// <summary>
-        /// Gets store by id.
-        /// </summary>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetStore([FromRoute] Guid id)
-        {
-            var query = new GetStoreQuery()
-            {
-                Id = id
-            };
-            var store = await mediatr.Send(query);
-            return Ok(store);
-        }
-
-        /// <summary>
-        /// Gets paged list of stores.
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> GetStoresList([FromQuery] GetStoresListQuery query)
-        {
-            var stores = await mediatr.Send(query);
-            return Ok(stores);
         }
     }
 }

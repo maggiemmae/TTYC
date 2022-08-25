@@ -1,12 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TTYC.Application.Products.GetProduct;
 using TTYC.Application.Users.AddProfile;
 using TTYC.Application.Users.GetUserProfile;
-using TTYC.Constants;
 
-namespace TTYC.ClientAPI.Controllers
+namespace TTYC.ClientAPI.User
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class ProfileController : ControllerBase
@@ -19,26 +20,23 @@ namespace TTYC.ClientAPI.Controllers
         }
 
         /// <summary>
-        /// Adds user profile with address.
+        /// Adds profile.
         /// </summary>
-        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
-        public async Task<IActionResult> AddUserProfile([FromBody] AddProfileCommand command)
+        public async Task<IActionResult> AddProfile(AddProfileCommand command)
         {
-            var profileId = await mediatr.Send(command);
-            return Ok(profileId);
+            var response = await mediatr.Send(command);
+            return Ok(response);
         }
 
         /// <summary>
-        /// Gets user profile of authorized user.
+        /// Gets profile.
         /// </summary>
-        [Authorize(Roles = Roles.Admin)]
         [HttpGet]
-        public async Task<IActionResult> GetUserProfile()
+        public async Task<IActionResult> GetProduct()
         {
             var query = new GetUserProfileQuery();
-            var profile = await mediatr.Send(query);
-            return Ok(profile);
+            return Ok(await mediatr.Send(query));
         }
     }
 }

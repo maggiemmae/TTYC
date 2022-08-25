@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TTYC.Application.Interfaces;
+using TTYC.Application.MapperProfiles;
 using TTYC.Application.Services;
 
 namespace TTYC.Application

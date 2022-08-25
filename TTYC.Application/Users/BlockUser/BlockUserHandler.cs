@@ -16,7 +16,7 @@ namespace TTYC.Application.Users.BlockUser
         public async Task<DateTime> Handle(BlockUserCommand command, CancellationToken cancellationToken)
         {
             var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
-            user.LockoutEnd = DateTime.UtcNow.AddDays(command.Days).AddHours(command.Hours);
+            user.LockoutEnd = command.LockoutEnd;
             
             dbContext.Update(user);
             await dbContext.SaveChangesAsync(cancellationToken);
