@@ -19,12 +19,15 @@ namespace TTYC.Application.Products.AddProduct
 
         public async Task<Guid> Handle(AddProductCommand command, CancellationToken cancellationToken)
         {
-            var stores = new List<Store>();
-            foreach (var id in command.StoreIds)
-            {
-                var item = await dbContext.Stores.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-                stores.Add(item);
-            }
+            //var stores = new List<Store>();
+            //foreach (var id in command.StoreIds)
+            //{
+            //    var item = await dbContext.Stores.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            //    stores.Add(item);
+            //}
+            var stores = await dbContext.Stores
+                .Where(x => command.StoreIds.Contains(x.Id))
+                .ToListAsync(cancellationToken);
 
             var product = mapper.Map<Product>(command);
             product.Stores = stores;

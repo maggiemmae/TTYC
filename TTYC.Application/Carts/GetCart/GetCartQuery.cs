@@ -3,7 +3,7 @@ using TTYC.Application.Models;
 
 namespace TTYC.Application.Carts.GetCart
 {
-    public class GetCartQuery : IRequest<ViewCart>
+    public class GetCartQuery : IRequest<CartModel>
     {
     }
 }

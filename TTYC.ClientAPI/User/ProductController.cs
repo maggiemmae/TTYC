@@ -32,10 +32,7 @@ namespace TTYC.ClientAPI.User
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct([FromRoute] Guid id)
         {
-            var query = new GetProductQuery()
-            {
-                Id = id
-            };
+            var query = new GetProductQuery(id);
             var product = await mediatr.Send(query);
             return Ok(product);
         }

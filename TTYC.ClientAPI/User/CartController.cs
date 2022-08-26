@@ -23,7 +23,7 @@ namespace TTYC.ClientAPI.User
         /// Adds product to cart.
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> AddProductToCart(AddProductToCartCommand command)
+        public async Task<IActionResult> AddProductToCart([FromQuery] AddProductToCartCommand command)
         {
             await mediatr.Send(command);
             return Ok();

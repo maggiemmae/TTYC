@@ -2,7 +2,7 @@
 
 namespace TTYC.Application.Models
 {
-    public class ViewCart
+    public class CartModel
     {
         public IList<CartItem> CartItems { get; set; }
         public decimal TotalSum { get; set; }

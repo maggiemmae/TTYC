@@ -6,7 +6,7 @@ using TTYC.Persistence;
 
 namespace TTYC.Application.Carts.GetCart
 {
-    public class GetCartHandler : IRequestHandler<GetCartQuery, ViewCart>
+    public class GetCartHandler : IRequestHandler<GetCartQuery, CartModel>
     {
         private readonly ApplicationDbContext dbContext;
         private readonly ICurrentUserService currentUserService;
@@ -17,19 +17,18 @@ namespace TTYC.Application.Carts.GetCart
             this.currentUserService = currentUserService;
         }
 
-        public async Task<ViewCart> Handle(GetCartQuery query, CancellationToken cancellationToken)
+        public async Task<CartModel> Handle(GetCartQuery query, CancellationToken cancellationToken)
         {
-            var cart = new ViewCart
+            var cart = new CartModel
             {
                 CartItems = await dbContext.CartItems
-                .Include(x => x.Product)
-                .Where(x => x.CartId == currentUserService.UserId)
-                .ToListAsync(cancellationToken),
+                    .Include(x => x.Product)
+                    .Where(x => x.CartId == currentUserService.UserId)
+                    .ToListAsync(cancellationToken),
 
-
-                TotalSum = (from items in dbContext.CartItems
-                            where items.CartId == currentUserService.UserId
-                            select items.Count * items.Product.Price).Sum()
+                TotalSum = dbContext.CartItems
+                    .Where(x => x.CartId == currentUserService.UserId)
+                    .Select(x => x.Count * x.Product.Price).Sum()
             };
             return cart;
         }

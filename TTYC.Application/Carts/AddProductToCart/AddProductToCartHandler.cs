@@ -30,13 +30,13 @@ namespace TTYC.Application.Carts.AddProductToCart
                     Id = Guid.NewGuid(),
                     CartId = currentUserService.UserId,
                     ProductId = command.ProductId,
-                    Count = 1,
+                    Count = command.Count,
                 };
                 dbContext.CartItems.Add(cartItem);
             }
             else
             {
-                cartItem.Count++;
+                cartItem.Count += command.Count;
             }
 
             await dbContext.SaveChangesAsync(cancellationToken);

@@ -6,5 +6,7 @@ namespace TTYC.Application.Products.GetProduct
     public class GetProductQuery : IRequest<ProductInfrastructure>
     {
         public Guid Id { get; set; }
+
+        public GetProductQuery(Guid id) => Id = id;
     }
 }

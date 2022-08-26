@@ -22,6 +22,7 @@ namespace TTYC.Application.Adresses.EditAddress
             address.FlatNumber = command.FlatNumber;
             address.Floor = command.Floor;
             address.IsDefault = command.IsDefault;
+            address.LastUpdated = command.LastUpdated;
 
             dbContext.Update(address);
             await dbContext.SaveChangesAsync(cancellationToken);

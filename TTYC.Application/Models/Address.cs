@@ -7,5 +7,7 @@
         public int HouseNumber { get; set; }
         public int FlatNumber { get; set; }
         public int Floor { get; set; }
+        public DateTime LastUpdated { get; set; }
+        public bool IsDefault { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace TTYC.Application.Adresses.EditAddress
         public int FlatNumber { get; set; }
         public int Floor { get; set; }
         public bool IsDefault { get; set; }
+        public DateTime LastUpdated { get; set; }
     }
 }
