@@ -23,6 +23,8 @@ namespace TTYC.Application.Adresses.EditAddress
             address.Floor = command.Floor;
             address.IsDefault = command.IsDefault;
             address.LastUpdated = command.LastUpdated;
+            address.Latitude = command.Latitude;
+            address.Longitude = command.Longitude;
 
             dbContext.Update(address);
             await dbContext.SaveChangesAsync(cancellationToken);
