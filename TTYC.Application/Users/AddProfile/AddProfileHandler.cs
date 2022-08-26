@@ -25,7 +25,6 @@ namespace TTYC.Application.Users.AddProfile
 
             var profile = mapper.Map<UserProfile>(command);
             profile.Id = user.Id;
-            profile.Addresses = new List<Address> { mapper.Map<Address>(command.Address) };
 
             dbContext.Profiles.Add(profile);
             await dbContext.SaveChangesAsync(cancellationToken);

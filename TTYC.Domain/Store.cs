@@ -7,6 +7,6 @@
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        public IList<Product> Products { get; set; }
+        public virtual IList<Product> Products { get; set; }
     }
 }

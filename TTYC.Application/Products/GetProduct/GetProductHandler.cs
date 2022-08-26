@@ -1,23 +1,26 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TTYC.Domain;
+using TTYC.Application.Models;
 using TTYC.Persistence;
 
 namespace TTYC.Application.Products.GetProduct
 {
-    public class GetProductHandler : IRequestHandler<GetProductQuery, Product>
+    public class GetProductHandler : IRequestHandler<GetProductQuery, ProductInfrastructure>
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public GetProductHandler(ApplicationDbContext dbContext)
+        public GetProductHandler(ApplicationDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
-        public async Task<Product> Handle(GetProductQuery query, CancellationToken cancellationToken)
+        public async Task<ProductInfrastructure> Handle(GetProductQuery query, CancellationToken cancellationToken)
         {
             var product = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-            return product;
+            return mapper.Map<ProductInfrastructure>(product);
         }
     }
 }

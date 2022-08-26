@@ -10,6 +10,7 @@ namespace TTYC.Persistence
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
@@ -38,6 +39,9 @@ namespace TTYC.Persistence
             builder.Entity<Store>()
                 .HasMany(x => x.Products)
                 .WithMany(x => x.Stores);
+
+            builder.Entity<CartItem>()
+                .HasKey(x => x.Id);
 
             base.OnModelCreating(builder);
         }
