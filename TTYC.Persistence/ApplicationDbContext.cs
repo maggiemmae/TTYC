@@ -11,6 +11,7 @@ namespace TTYC.Persistence
         public DbSet<Product> Products { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
@@ -42,6 +43,10 @@ namespace TTYC.Persistence
 
             builder.Entity<CartItem>()
                 .HasKey(x => x.Id);
+
+            builder.Entity<Order>()
+                .Property(p => p.TotalSum)
+                .HasColumnType("decimal(18,2)");
 
             base.OnModelCreating(builder);
         }

@@ -10,4 +10,8 @@
     <PackageReference Include="EntityFramework" Version="6.4.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TTYC.Constants\TTYC.Constants.csproj" />
+  </ItemGroup>
+
 </Project>

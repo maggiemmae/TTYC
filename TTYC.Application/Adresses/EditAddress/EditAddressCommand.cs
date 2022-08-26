@@ -11,5 +11,7 @@ namespace TTYC.Application.Adresses.EditAddress
         public int Floor { get; set; }
         public bool IsDefault { get; set; }
         public DateTime LastUpdated { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }
