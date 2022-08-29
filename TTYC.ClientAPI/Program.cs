@@ -1,5 +1,6 @@
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.OpenApi.Models;
+using Stripe;
 using System.Reflection;
 using TTYC.Application;
 using TTYC.Constants;
@@ -83,7 +84,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.InitializePersistence(builder.Configuration);
-builder.Services.InitializeApplication();
+builder.Services.InitializeApplication(builder.Configuration);
 
 var app = builder.Build();
 

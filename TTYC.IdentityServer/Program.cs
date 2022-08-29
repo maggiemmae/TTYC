@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(ConfigurationConstants.CorsPolicy, x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 builder.Services.InitializePersistence(builder.Configuration);
-builder.Services.InitializeApplication();
+builder.Services.InitializeApplication(builder.Configuration);
 
 var app = builder.Build();
 

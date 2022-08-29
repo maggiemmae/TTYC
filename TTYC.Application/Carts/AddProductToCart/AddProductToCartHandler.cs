@@ -23,6 +23,9 @@ namespace TTYC.Application.Carts.AddProductToCart
                 x => x.CartId == currentUserService.UserId 
                 && x.ProductId == command.ProductId, cancellationToken);
 
+            var product = await dbContext.Products
+                .FirstOrDefaultAsync(x => x.Id == command.ProductId, cancellationToken);
+
             if(cartItem == null)
             {
                 cartItem = new CartItem
@@ -31,6 +34,7 @@ namespace TTYC.Application.Carts.AddProductToCart
                     CartId = currentUserService.UserId,
                     ProductId = command.ProductId,
                     Count = command.Count,
+                    PriceId = product.PriceId
                 };
                 dbContext.CartItems.Add(cartItem);
             }

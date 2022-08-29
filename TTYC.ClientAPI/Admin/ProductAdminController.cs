@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 using TTYC.Application.Products.AddProduct;
 using TTYC.Application.Products.DeleteProduct;
 using TTYC.Application.Products.EditProduct;
@@ -8,7 +9,7 @@ using TTYC.Constants;
 
 namespace TTYC.ClientAPI.Admin
 {
-    [Authorize(Roles = Roles.Admin)]
+    //[Authorize(Roles = Roles.Admin)]
     [Route("[controller]")]
     [ApiController]
     public class ProductAdminController : ControllerBase

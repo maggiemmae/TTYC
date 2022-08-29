@@ -37,10 +37,10 @@ namespace TTYC.Application.Orders.AddOrder
                 TotalSum = totalSum,
                 UserId = currentUserService.UserId,
                 AddressId = command.AddressId,
+                CartItems = cartItems
             };
 
             dbContext.Orders.Add(order);
-            dbContext.CartItems.RemoveRange(cartItems);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return order.Id;
