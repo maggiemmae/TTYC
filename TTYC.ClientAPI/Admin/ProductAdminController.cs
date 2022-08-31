@@ -9,7 +9,7 @@ using TTYC.Constants;
 
 namespace TTYC.ClientAPI.Admin
 {
-    //[Authorize(Roles = Roles.Admin)]
+    [Authorize(Roles = Roles.Admin)]
     [Route("[controller]")]
     [ApiController]
     public class ProductAdminController : ControllerBase

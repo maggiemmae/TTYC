@@ -7,6 +7,7 @@
         public const string ClientOptions = "ClientOptions";
         public const string AuthenticationOptions = "AuthenticationOptions";
         public const string StripeConfiguration = "StripeConfiguration";
+        public const string StripeOptions = "StripeOptions";
 
         public struct PasswordHashParams
         {

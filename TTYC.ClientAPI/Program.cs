@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var authenticationOptions = new AuthOptions();
 builder.Configuration.GetSection(ConfigurationConstants.AuthenticationOptions).Bind(authenticationOptions);
+builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection(ConfigurationConstants.StripeOptions));
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
