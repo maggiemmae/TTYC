@@ -1,5 +1,6 @@
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.OpenApi.Models;
+using Stripe;
 using System.Reflection;
 using TTYC.Application;
 using TTYC.Constants;
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var authenticationOptions = new AuthOptions();
 builder.Configuration.GetSection(ConfigurationConstants.AuthenticationOptions).Bind(authenticationOptions);
+builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection(ConfigurationConstants.StripeOptions));
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -83,7 +85,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.InitializePersistence(builder.Configuration);
-builder.Services.InitializeApplication();
+builder.Services.InitializeApplication(builder.Configuration);
 
 var app = builder.Build();
 

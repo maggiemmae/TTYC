@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Stripe.Checkout;
 using TTYC.Application.Adresses.AddAddress;
 using TTYC.Application.Adresses.EditAddress;
 using TTYC.Application.Models;
@@ -22,6 +23,8 @@ namespace TTYC.Application.MapperProfiles
             CreateMap<Models.Address, Address>().ForMember(x => x.Id, opt => Guid.NewGuid());
             CreateMap<Product, ProductInfrastructure>();
             CreateMap<AddAddressCommand, Address>().ForMember(x => x.Id, opt => Guid.NewGuid());
+            CreateMap<CartItem, SessionLineItemOptions>().ForMember(x => x.Price, opt => opt.MapFrom(x => x.PriceId))
+                .ForMember(x => x.Quantity, opt => opt.MapFrom(x => x.Count));
         }
 
         private class AddressResolver : IValueResolver<AddProfileCommand, UserProfile, IList<Address>>
