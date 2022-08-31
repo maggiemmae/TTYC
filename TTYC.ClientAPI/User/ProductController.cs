@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TTYC.Application.Products.GetProduct;
 using TTYC.Application.Products.GetProductsList;
 
 namespace TTYC.ClientAPI.User
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -20,7 +22,7 @@ namespace TTYC.ClientAPI.User
         /// Gets paged list of products.
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetProductsList([FromQuery] GeStoresListQuery query)
+        public async Task<IActionResult> GetProductsList([FromQuery] GetProductsListQuery query)
         {
             var products = await mediatr.Send(query);
             return Ok(products);

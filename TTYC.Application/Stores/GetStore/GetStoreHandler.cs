@@ -17,7 +17,7 @@ namespace TTYC.Application.Stores.GetStore
         public async Task<Store> Handle(GetStoreQuery query, CancellationToken cancellationToken)
         {
             var store = await dbContext.Stores
-                .Include(x => x.Products)
+                .Include(x => x.Products.Where(x => x.IsActive == true))
                 .FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
             return store;
         }

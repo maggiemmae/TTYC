@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
-using TTYC.Domain;
 using TTYC.Persistence;
 using Product = TTYC.Domain.Product;
 
@@ -39,12 +38,14 @@ namespace TTYC.Application.Products.AddProduct
                 .ToListAsync(cancellationToken);
 
             var product = mapper.Map<Product>(command);
+            product.StripeId = item.Id;
             product.PriceId = item.DefaultPriceId;
             product.Stores = stores;
+            product.IsActive = true;
 
             dbContext.Products.Add(product);
             await dbContext.SaveChangesAsync(cancellationToken);
-            
+
             return product.Id;
         }
     }

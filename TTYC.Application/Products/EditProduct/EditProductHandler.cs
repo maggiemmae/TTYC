@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TTYC.Domain;
+using Stripe;
 using TTYC.Persistence;
 
 namespace TTYC.Application.Products.EditProduct
@@ -9,21 +8,45 @@ namespace TTYC.Application.Products.EditProduct
     public class EditProductHandler : IRequestHandler<EditProductCommand, Unit>
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IMapper mapper;
 
-        public EditProductHandler(ApplicationDbContext dbContext, IMapper mapper)
+        public EditProductHandler(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.mapper = mapper;
         }
 
         public async Task<Unit> Handle(EditProductCommand command, CancellationToken cancellationToken)
         {
             var product = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
 
+            var priceOptions = new PriceCreateOptions
+            {
+                UnitAmountDecimal = command.Price * 100,
+                Currency = "usd",
+                Product = product.StripeId
+            };
+            var priceService = new PriceService();
+            var price = priceService.Create(priceOptions);
+
+            var productOptions = new ProductUpdateOptions
+            {
+                Name = command.Name,
+                Description = command.Description,
+                DefaultPrice = price.Id
+            };
+            var productService = new ProductService();
+            productService.Update(product.StripeId, productOptions);
+
+            var options = new PriceUpdateOptions
+            {
+                Active = false
+            };
+            var service = new PriceService();
+            service.Update(product.PriceId, options);
+
             product.Name = command.Name;
             product.Description = command.Description;
             product.Price = command.Price;
+            product.PriceId = price.Id;
 
             dbContext.Update(product);
             await dbContext.SaveChangesAsync(cancellationToken);
