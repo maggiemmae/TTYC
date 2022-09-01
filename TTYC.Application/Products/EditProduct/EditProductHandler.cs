@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
+using TTYC.Constants;
 using TTYC.Persistence;
 
 namespace TTYC.Application.Products.EditProduct
@@ -20,8 +21,8 @@ namespace TTYC.Application.Products.EditProduct
 
             var priceOptions = new PriceCreateOptions
             {
-                UnitAmountDecimal = command.Price * 100,
-                Currency = "usd",
+                UnitAmountDecimal = command.Price * PaymentOptions.Amount,
+                Currency = PaymentOptions.Usd,
                 Product = product.StripeId
             };
             var priceService = new PriceService();

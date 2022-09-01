@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
+using TTYC.Constants;
 using TTYC.Persistence;
 using Product = TTYC.Domain.Product;
 
@@ -26,8 +27,8 @@ namespace TTYC.Application.Products.AddProduct
                 Description = command.Description,
                 DefaultPriceData = new ProductDefaultPriceDataOptions
                 {
-                    Currency = "usd",
-                    UnitAmountDecimal = command.Price * 100
+                    Currency = PaymentOptions.Usd,
+                    UnitAmountDecimal = command.Price * PaymentOptions.Amount
                 }
             };
             var service = new ProductService();

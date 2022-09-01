@@ -34,13 +34,13 @@ namespace TTYC.ClientAPI.User
             var options = new SessionCreateOptions
             {
                 LineItems = items,
-                Mode = "payment",
+                Mode = PaymentOptions.Mode,
                 SuccessUrl = stripeOptions.SuccessUrl,
                 CancelUrl = stripeOptions.CancelUrl,
                 PaymentIntentData = new SessionPaymentIntentDataOptions
                 {
                     Metadata =
-                    new Dictionary<string, string> { { "orderId", order.Id.ToString() } }
+                    new Dictionary<string, string> { { PaymentOptions.OrderId, order.Id.ToString() } }
                 }
             };
 

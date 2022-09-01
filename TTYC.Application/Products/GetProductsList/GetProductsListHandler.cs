@@ -17,7 +17,7 @@ namespace TTYC.Application.Products.GetProductsList
         public async Task<PagedList<Product>> Handle(GetProductsListQuery query, CancellationToken cancellationToken)
         {
             var products = await PagedList<Product>.ToPagedListAsync(
-                dbContext.Products.Where(x => x.IsActive == true),
+                dbContext.Products.Where(x => x.IsActive),
                 query.PageNumber,
                 query.PageSize);
 

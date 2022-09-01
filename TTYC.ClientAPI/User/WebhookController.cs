@@ -29,7 +29,7 @@ namespace TTYC.ClientAPI.User
             {
                 var stripeEvent = EventUtility.ConstructEvent(
                   json,
-                  Request.Headers["Stripe-Signature"],
+                  Request.Headers[PaymentOptions.Signature],
                   stripeOptions.WebhookSecret
                 );
 
@@ -39,7 +39,7 @@ namespace TTYC.ClientAPI.User
 
                     var service = new PaymentIntentService();
                     var payment = service.Get(session.PaymentIntentId);
-                    var id = Guid.Parse(payment.Metadata["orderId"]);
+                    var id = Guid.Parse(payment.Metadata[PaymentOptions.OrderId]);
 
                     await mediatr.Send(new EditStatusCommand { Id = id, OrderStatus = OrderStatus.Paid });
                 }

@@ -29,8 +29,8 @@ namespace TTYC.Application.Payment.Checkout
                 .LastOrDefaultAsync(x => x.UserId == currentUserService.UserId, cancellationToken);
             
             var response = mapper.Map<List<SessionLineItemOptions>>(order.CartItems);
-            //dbContext.CartItems.RemoveRange(order.CartItems);
-            //await dbContext.SaveChangesAsync(cancellationToken);
+            dbContext.CartItems.RemoveRange(order.CartItems);
+            await dbContext.SaveChangesAsync(cancellationToken);
             return response;
         }
     }

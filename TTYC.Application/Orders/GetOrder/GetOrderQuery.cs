@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using TTYC.Domain;
+using TTYC.Application.Models;
 
 namespace TTYC.Application.Orders.GetOrder
 {
-    public class GetOrderQuery : IRequest<Order>
+    public class GetOrderQuery : IRequest<OrderInfrastructure>
     {
     }
 }
