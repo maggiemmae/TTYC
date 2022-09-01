@@ -36,6 +36,8 @@ namespace TTYC.Application.Orders.AddOrder
                 .FirstOrDefaultAsync(x => x.Id == command.AddressId, cancellationToken);
             var stores = await dbContext.Stores
                 .Include(x => x.Products).ToListAsync(cancellationToken);
+            var zoneRadius = await dbContext.DeliverySettings
+                .Select(x => x.Radius).FirstOrDefaultAsync(cancellationToken);
 
             var productsStore = new Dictionary<Guid, double>();
             foreach (var store in stores)
@@ -53,7 +55,7 @@ namespace TTYC.Application.Orders.AddOrder
                 throw new Exception("One of your products is out of stock");
             }
             var nearestStore = productsStore.Values.Min();
-            if (nearestStore > 10)
+            if (nearestStore > zoneRadius)
             {
                 throw new Exception("Your address isn't in delivery zone");
             }

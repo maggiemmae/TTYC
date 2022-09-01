@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Stripe;
 using TTYC.Application.Products.AddProduct;
 using TTYC.Application.Products.DeleteProduct;
 using TTYC.Application.Products.EditProduct;
@@ -35,7 +34,7 @@ namespace TTYC.ClientAPI.Admin
         /// Edits product by id.
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> EditProduct([FromBody] EditProductCommand command)
+        public async Task<IActionResult> EditProduct([FromBody] EditDeliveryZoneCommand command)
         {
             await mediatr.Send(command);
             return Ok();

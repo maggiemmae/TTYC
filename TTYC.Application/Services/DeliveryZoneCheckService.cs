@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TTYC.Application.Interfaces;
+﻿using TTYC.Application.Interfaces;
 using TTYC.Domain;
 using TTYC.Persistence;
 
@@ -7,10 +6,18 @@ namespace TTYC.Application.Services
 {
     public class DeliveryZoneCheckService : IDeliveryZoneCheckService
     {
+        private readonly ApplicationDbContext dbContext;
+
+        public DeliveryZoneCheckService(ApplicationDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
         public bool CheckDeliveryZone(double latitude, double longitude, Store store)
         {
             var distance = CalculateDistance(store.Latitude, store.Longitude, latitude, longitude);
-            return distance <= 10;
+            var zoneRadius = dbContext.DeliverySettings.Select(x => x.Radius).FirstOrDefault();
+            return distance <= zoneRadius;
         }
 
         public double CalculateDistance(double x1, double y1, double x2, double y2)

@@ -21,8 +21,7 @@ namespace TTYC.Application.Adresses.DeliveryZoneCheck
             var stores = await dbContext.Stores.ToListAsync(cancellationToken);
             foreach (var store in stores)
             {
-                var inZone = deliveryZoneCheck.CheckDeliveryZone(query.Latitude, query.Longitude, store);
-                if(inZone)
+                if (deliveryZoneCheck.CheckDeliveryZone(query.Latitude, query.Longitude, store))
                 {
                     return true;
                 }
