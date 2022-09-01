@@ -2,7 +2,7 @@
 
 namespace TTYC.Application.Products.EditProduct
 {
-    public class EditDeliveryZoneCommand : IRequest
+    public class EditProductCommand : IRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

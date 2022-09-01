@@ -34,7 +34,7 @@ namespace TTYC.ClientAPI.Admin
         /// Edits product by id.
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> EditProduct([FromBody] EditDeliveryZoneCommand command)
+        public async Task<IActionResult> EditProduct([FromBody] EditProductCommand command)
         {
             await mediatr.Send(command);
             return Ok();
