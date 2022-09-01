@@ -16,6 +16,7 @@ namespace TTYC.Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddHttpContextAccessor();
             services.AddTransient<ICurrentUserService, CurrentUserService>();
+            services.AddTransient<IDeliveryZoneCheckService, DeliveryZoneCheckService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             StripeConfiguration.ApiKey = configuration.GetSection(ConfigurationConstants.StripeConfiguration)["ApiKey"];
             return services;

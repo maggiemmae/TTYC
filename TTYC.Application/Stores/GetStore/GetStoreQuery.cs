@@ -6,5 +6,7 @@ namespace TTYC.Application.Stores.GetStore
     public class GetStoreQuery : IRequest<Store>
     {
         public Guid Id { get; set; }
+        
+        public GetStoreQuery(Guid id) => Id = id;
     }
 }

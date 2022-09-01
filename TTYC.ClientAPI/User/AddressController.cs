@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TTYC.Application.Adresses.AddAddress;
 using TTYC.Application.Adresses.DeleteAddress;
+using TTYC.Application.Adresses.DeliveryZoneCheck;
 using TTYC.Application.Adresses.EditAddress;
+using TTYC.Application.Interfaces;
 
 namespace TTYC.ClientAPI.User
 {
@@ -47,6 +49,16 @@ namespace TTYC.ClientAPI.User
         {
             await mediatr.Send(command);
             return Ok();
+        }
+
+        /// <summary>
+        /// Delivery zone check.
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> DeliveryZoneCheck(double latitude, double longitude)
+        {
+            var result = await mediatr.Send(new DeliveryZoneCheckQuery(latitude, longitude));
+            return Ok(result);
         }
     }
 }
