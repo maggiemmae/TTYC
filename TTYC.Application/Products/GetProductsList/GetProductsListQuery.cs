@@ -4,7 +4,7 @@ using TTYC.Domain;
 
 namespace TTYC.Application.Products.GetProductsList
 {
-    public class GeStoresListQuery : PagingParameters, IRequest<PagedList<Product>>
+    public class GetProductsListQuery : PagingParameters, IRequest<PagedList<Product>>
     {
     }
 }

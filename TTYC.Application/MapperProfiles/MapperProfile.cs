@@ -25,6 +25,8 @@ namespace TTYC.Application.MapperProfiles
             CreateMap<AddAddressCommand, Address>().ForMember(x => x.Id, opt => Guid.NewGuid());
             CreateMap<CartItem, SessionLineItemOptions>().ForMember(x => x.Price, opt => opt.MapFrom(x => x.PriceId))
                 .ForMember(x => x.Quantity, opt => opt.MapFrom(x => x.Count));
+            CreateMap<Address, Models.Address>();
+            CreateMap<Order, OrderInfrastructure>().ForMember(x => x.Address, opt => opt.MapFrom(x => x.Address));
         }
 
         private class AddressResolver : IValueResolver<AddProfileCommand, UserProfile, IList<Address>>

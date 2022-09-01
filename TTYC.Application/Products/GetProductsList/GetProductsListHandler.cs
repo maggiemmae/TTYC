@@ -5,7 +5,7 @@ using TTYC.Persistence;
 
 namespace TTYC.Application.Products.GetProductsList
 {
-    public class GetProductsListHandler : IRequestHandler<GeStoresListQuery, PagedList<Product>>
+    public class GetProductsListHandler : IRequestHandler<GetProductsListQuery, PagedList<Product>>
     {
         private readonly ApplicationDbContext dbContext;
 
@@ -14,10 +14,10 @@ namespace TTYC.Application.Products.GetProductsList
             this.dbContext = dbContext;
         }
 
-        public async Task<PagedList<Product>> Handle(GeStoresListQuery query, CancellationToken cancellationToken)
+        public async Task<PagedList<Product>> Handle(GetProductsListQuery query, CancellationToken cancellationToken)
         {
             var products = await PagedList<Product>.ToPagedListAsync(
-                dbContext.Products,
+                dbContext.Products.Where(x => x.IsActive),
                 query.PageNumber,
                 query.PageSize);
 

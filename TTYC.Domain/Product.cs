@@ -1,4 +1,6 @@
-﻿namespace TTYC.Domain
+﻿using System.Globalization;
+
+namespace TTYC.Domain
 {
     public class Product
     {
@@ -7,6 +9,8 @@
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string PriceId { get; set; }
+        public string StripeId { get; set; }
+        public bool IsActive { get; set; }
 
         public virtual IList<Store> Stores { get; set; }
     }
