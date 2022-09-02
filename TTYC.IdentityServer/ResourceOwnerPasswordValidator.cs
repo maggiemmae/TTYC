@@ -29,6 +29,10 @@ namespace TTYC.IdentityServer
             {
                 throw new Exception($"You're blocked until {user.LockoutEnd}");
             }
+            if (user.IsPasswordReseted)
+            {
+                throw new Exception("Reset your password");
+            }
 
             var claims = new List<Claim> {
                 new Claim("role", user.Role)

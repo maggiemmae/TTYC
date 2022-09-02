@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using TTYC.Domain;
 
 namespace TTYC.Persistence
@@ -13,6 +14,7 @@ namespace TTYC.Persistence
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<DeliverySettings> DeliverySettings { get; set; }
+        public DbSet<RecoveryCode> RecoveryCodes { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
@@ -51,6 +53,12 @@ namespace TTYC.Persistence
 
             builder.Entity<DeliverySettings>()
                 .HasData(new DeliverySettings { Id = 1, Radius = 10 });
+
+            builder.Entity<RecoveryCode>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.RecoveryCodes)
+                .HasForeignKey(x => x.PhoneNumder)
+                .HasPrincipalKey(x => x.PhoneNumber);
 
             base.OnModelCreating(builder);
         }
