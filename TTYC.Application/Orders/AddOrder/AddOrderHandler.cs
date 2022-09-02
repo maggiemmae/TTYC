@@ -23,7 +23,7 @@ namespace TTYC.Application.Orders.AddOrder
         public async Task<Guid> Handle(AddOrderCommand command, CancellationToken cancellationToken)
         {
             var cartItems = await dbContext.CartItems
-                    .Include(x => x.Product)
+                    .Include(x => x.Product.Stores)
                     .Where(x => x.CartId == currentUserService.UserId)
                     .ToListAsync(cancellationToken);
 
@@ -34,8 +34,7 @@ namespace TTYC.Application.Orders.AddOrder
             var products = cartItems.Select(x => x.Product).ToList();
             var address = await dbContext.Addresses
                 .FirstOrDefaultAsync(x => x.Id == command.AddressId, cancellationToken);
-            var stores = await dbContext.Stores
-                .Include(x => x.Products).ToListAsync(cancellationToken);
+            var stores = cartItems.SelectMany(x => x.Product.Stores).Distinct().ToList();
             var zoneRadius = await dbContext.DeliverySettings
                 .Select(x => x.Radius).FirstOrDefaultAsync(cancellationToken);
 
@@ -50,10 +49,11 @@ namespace TTYC.Application.Orders.AddOrder
                 }
             }
 
-            if(productsStore == null)
+            if (productsStore == null)
             {
                 throw new Exception("One of your products is out of stock");
             }
+
             var nearestStore = productsStore.Values.Min();
             if (nearestStore > zoneRadius)
             {
