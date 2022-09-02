@@ -22,11 +22,7 @@ namespace TTYC.ClientAPI.User
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStore([FromRoute] Guid id)
         {
-            var query = new GetStoreQuery()
-            {
-                Id = id
-            };
-            var store = await mediatr.Send(query);
+            var store = await mediatr.Send(new GetStoreQuery(id));
             return Ok(store);
         }
 

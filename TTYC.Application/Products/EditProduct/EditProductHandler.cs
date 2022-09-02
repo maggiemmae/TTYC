@@ -21,7 +21,7 @@ namespace TTYC.Application.Products.EditProduct
 
             var priceOptions = new PriceCreateOptions
             {
-                UnitAmountDecimal = command.Price * PaymentOptions.Amount,
+                UnitAmountDecimal = command.Price * 100,
                 Currency = PaymentOptions.Usd,
                 Product = product.StripeId
             };
