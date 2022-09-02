@@ -30,7 +30,7 @@ namespace TTYC.Application.Services
             return recoveryCode.Code;
         }
 
-        public static string GenerateRecoveryCode(int length)
+        private static string GenerateRecoveryCode(int length)
         {
             return new string(Guid.NewGuid().ToString()[..length]);
         }
