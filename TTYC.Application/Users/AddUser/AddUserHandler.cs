@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TTYC.Domain;
 using TTYC.Persistence;
 
@@ -15,12 +16,20 @@ namespace TTYC.Application.Users.AddUser
 
         public async Task<Guid> Handle(AddUserCommand command, CancellationToken cancellationToken)
         {
+            var userExists = await dbContext.Users
+                .FirstOrDefaultAsync(x => x.PhoneNumber == command.PhoneNumber, cancellationToken);
+            if (userExists != null)
+            {
+                throw new Exception("User with such phone number is already exist");
+            };
+
             var user = new User
             {
                 Id = Guid.NewGuid(),
                 PhoneNumber = command.PhoneNumber,
                 Password = PasswordHelper.HashPassword(command.Password),
-                Role = command.Role
+                Role = command.Role,
+                IsPasswordReseted = false
             };
 
             dbContext.Users.Add(user);
