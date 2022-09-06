@@ -3,7 +3,6 @@ using MediatR;
 using TTYC.Application.Interfaces;
 using TTYC.Domain;
 using TTYC.Persistence;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TTYC.Application.Adresses.AddAddress
 {
